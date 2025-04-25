@@ -4,8 +4,15 @@ const { AzureOpenAI } = require("openai");
 const dotenv = require("dotenv");
 dotenv.config();
 
+// const IG_USERNAME = process.env.IG_USERNAME || "_rakesh_mahendran_"
+// const IG_PASSWORD = process.env.IG_PASSWORD || "r@kesh r@kesh99"
+// const AZURE_OPENAI_API_KEY = process.env.AZURE_OPENAI_API_KEY || "https://ai-innovation7209ai181705899158.openai.azure.com/";
+// const AZURE_OPENAI_ENDPOINT = process.env.AZURE_OPENAI_ENDPOINT || "67nWrZWs62N62AaZlq4LNBSmZEXRKjZatJZDCYR6i6YSgjbcbhRrJQQJ99BBACHYHv6XJ3w3AAAAACOG2rfF";
+
+
+
 // Configuration
-const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY || "AIzaSyBmKvvj027Z4xLv8d7bwJFEhZlGP9t0ScM"
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY || "AIzaSyAquC0cxw7hArWBSkv98gNUO2lBzGwkBUI"
 const AZURE_OPENAI_ENDPOINT = process.env.AZURE_OPENAI_ENDPOINT || "https://ai-innovation7209ai181705899158.openai.azure.com/";
 const AZURE_OPENAI_API_KEY = process.env.AZURE_OPENAI_API_KEY || "67nWrZWs62N62AaZlq4LNBSmZEXRKjZatJZDCYR6i6YSgjbcbhRrJQQJ99BBACHYHv6XJ3w3AAAAACOG2rfF";
 const API_VERSION = "2024-05-01-preview";
@@ -186,6 +193,7 @@ function getAverageEstimatedReach(stats) {
 
 /**
  * Get average views for paid promotions/branded content
+ * Updated to better match Python implementation
  * @param {string} channelId - YouTube channel ID
  * @returns {Promise<Array>} - [Count of branded videos, Average views]
  */
@@ -244,6 +252,7 @@ function calculateEngagementRate(stats) {
 
 /**
  * Calculate average video duration in minutes
+ * Updated to better match Python implementation and improve robustness
  * @param {Array} stats - Array of video statistics
  * @returns {number} - Average duration in minutes
  */
@@ -266,7 +275,7 @@ function getVideoDurationStats(stats) {
   });
   
   const avgSeconds = durations.reduce((a, b) => a + b, 0) / durations.length;
-  return parseFloat((avgSeconds / 60).toFixed(1)); // Convert to minutes
+  return parseFloat((avgSeconds / 60).toFixed(1)); // Convert to minutes and round to 1 decimal
 }
 
 /**
@@ -479,10 +488,10 @@ async function analyzeChannel(username) {
     const engagementRate = calculateEngagementRate(stats);
     const avgDuration = getVideoDurationStats(stats);
     
-    // NEW: Added average estimated reach
+    // Added average estimated reach
     const avgEstimatedReach = getAverageEstimatedReach(stats);
     
-    // NEW: Added branded content analysis
+    // Added branded content analysis
     const [brandedCount, avgBrandedViews] = await getAvgViewsPaidPromos(channelId);
 
     return {
